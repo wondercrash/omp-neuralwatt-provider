@@ -1,0 +1,22 @@
+{
+  "name": "omp-neuralwatt-provider",
+  "version": "0.1.0",
+  "description": "Neuralwatt model provider for oh-my-pi (omp): live model discovery, /login, quota in /usage, energy totals",
+  "type": "module",
+  "license": "MIT",
+  "author": "wondercrash",
+  "keywords": ["oh-my-pi", "omp", "omp-plugin", "neuralwatt", "llm-provider"],
+  "files": ["src", "README.md", "LICENSE"],
+  "omp": {
+    "extensions": ["./src/neuralwatt.ts"]
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc -p ."
+  },
+  "devDependencies": {
+    "@oh-my-pi/pi-coding-agent": "18.19.0",
+    "@types/bun": "^1.4.4",
+    "typescript": "5"
+  }
+}
