@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@oh-my-pi/pi-coding-agent";
+import { registerEnergyCommand } from "./energy";
 import { fetchNeuralwattModels } from "./models";
 import { login, usageProvider } from "./quota";
 import { API_KEY_ENV, BASE_URL, PROVIDER_ID } from "./shared";
@@ -12,4 +13,5 @@ export default function neuralwatt(pi: ExtensionAPI): void {
 		oauth: { name: "Neuralwatt", login },
 		usage: usageProvider,
 	});
+	registerEnergyCommand(pi);
 }
