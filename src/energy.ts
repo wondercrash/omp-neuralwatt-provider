@@ -3,6 +3,12 @@ import { API_KEY_ENV, BASE_URL, bearer, finite, isRecord, PROVIDER_ID, usableApi
 
 export const ENERGY_URL = `${BASE_URL}/usage/energy`;
 
+/** Four decimals, or three significant digits below 0.001 kWh so small totals don't print as zero. */
+function formatKwh(kwh: number): string {
+	if (kwh <= 0 || kwh >= 0.001) return kwh.toFixed(4);
+	return kwh.toFixed(Math.min(2 - Math.floor(Math.log10(kwh)), 20));
+}
+
 /** One-line summary of a `/v1/usage/energy` payload; `undefined` when it has no totals. */
 export function formatEnergySummary(payload: unknown): string | undefined {
 	if (!isRecord(payload) || !isRecord(payload.totals)) return undefined;
@@ -15,7 +21,7 @@ export function formatEnergySummary(payload: unknown): string | undefined {
 	const carbon = finite(totals.carbon_g_co2eq);
 	return (
 		`Neuralwatt energy${range}: ${finite(totals.requests) ?? 0} requests ` +
-		`(${finite(totals.requests_with_energy) ?? 0} metered), ${kwh.toFixed(4)} kWh (${Math.round(joules)} J)` +
+		`(${finite(totals.requests_with_energy) ?? 0} metered), ${formatKwh(kwh)} kWh (${Math.round(joules)} J)` +
 		(carbon !== undefined ? `, ${carbon.toFixed(2)} g CO2e` : "")
 	);
 }

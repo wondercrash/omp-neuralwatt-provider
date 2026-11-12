@@ -21,6 +21,15 @@ describe("formatEnergySummary", () => {
 		);
 	});
 
+	test("small totals keep three significant digits", () => {
+		expect(
+			formatEnergySummary({ totals: { requests: 2, requests_with_energy: 2, energy_kwh: 0.0000489, energy_joules: 176 } }),
+		).toBe("Neuralwatt energy: 2 requests (2 metered), 0.0000489 kWh (176 J)");
+		expect(formatEnergySummary({ totals: { requests: 0, energy_kwh: 0 } })).toBe(
+			"Neuralwatt energy: 0 requests (0 metered), 0.0000 kWh (0 J)",
+		);
+	});
+
 	test("no totals", () => {
 		expect(formatEnergySummary({})).toBeUndefined();
 	});
